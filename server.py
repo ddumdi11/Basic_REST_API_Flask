@@ -6,6 +6,7 @@ from json import dumps
 
 db_connect = create_engine('sqlite:///chinook.db')
 app = Flask(__name__)
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 api = Api(app)
 
 

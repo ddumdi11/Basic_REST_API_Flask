@@ -1,3 +1,5 @@
 Projektstart: 09.04.2021 (?) + 30.04.2021
 
 Bugfix: https://stackoverflow.com/questions/60140174/basic-flask-app-not-running-typeerror-required-field-type-ignores-missing-fr
+
+Schönerer JSON-Ausdruck: https://stackoverflow.com/questions/54150762/i-want-to-make-pretty-json-formatting-in-flask
