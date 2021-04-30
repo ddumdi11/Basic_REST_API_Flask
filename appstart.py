@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 from flask_restful import Resource, Api
 from sqlalchemy import create_engine
 from json import dumps
@@ -10,11 +10,18 @@ app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 api = Api(app)
 
 
-class Employees(Resource):
+class EmployeeIds(Resource):
     def get(self):
         conn = db_connect.connect()  # connect to database
         query = conn.execute("select * from employees")  # This line performs query and returns json result
         return {'employees': [i[0] for i in query.cursor.fetchall()]}  # Fetches first column that is Employee ID
+
+class EmployeeIdsNames(Resource):
+    def get(self):
+        conn = db_connect.connect()  # connect to database
+        query = conn.execute("select EmployeeId, FirstName, LastName from employees")  # This line performs query and returns json result
+        employees = [dict(zip(tuple(query.keys()), i)) for i in query.cursor]
+        return render_template('employee_ids_names.html', employees=employees)
 
 
 class Tracks(Resource):
@@ -33,9 +40,10 @@ class Employees_Name(Resource):
         return jsonify(result)
 
 
-api.add_resource(Employees, '/employees')  # Route_1
+api.add_resource(EmployeeIds, '/employee_ids')  # Route_1
 api.add_resource(Tracks, '/tracks')  # Route_2
 api.add_resource(Employees_Name, '/employees/<employee_id>')  # Route_3
+api.add_resource(EmployeeIdsNames, '/employee_ids_names')  # Route_4
 
 if __name__ == '__main__':
     app.run(port='5002')
